@@ -18,13 +18,17 @@ export default {
             let formData = new FormData();
 
             formData.append(this.field.attribute, this.value);
-            formData.append('_method', 'PUT');
+            formData.append('_method', 'PATCH');
 
-            return Nova.request().post(`/nova-api/${this.resourceName}/${this.resourceId}`, formData)
+            return Nova.request().post(`/nova-vendor/inline-select/${this.resourceName}/${this.resourceId}`, formData)
                 .then(() => {
                     let label = _.find(this.field.options, option => option.value == this.value).label;
 
                     this.$toasted.show(`${this.field.name} updated to "${label}"`, { type: 'success' });
+
+                    if (this.field.inlineDetailReloadOnUpdate) {
+                        window.location.reload()
+                    }
                 }, (response) => {
                     this.$toasted.show(response, { type: 'error' });
                 })

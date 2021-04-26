@@ -78,9 +78,9 @@ class InlineSelect extends Field
      *
      * @return $this
      */
-    public function inlineOnDetail()
+    public function inlineOnDetail($inline = true, $reloadOnUpdate = false)
     {
-        return $this->withMeta(['inlineDetail' => true]);
+        return $this->withMeta(['inlineDetail' => $inline, 'inlineDetailReloadOnUpdate' => $reloadOnUpdate]);
     }
 
     /**
