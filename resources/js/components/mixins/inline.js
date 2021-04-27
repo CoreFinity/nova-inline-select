@@ -20,7 +20,7 @@ export default {
             formData.append(this.field.attribute, this.value);
             formData.append('_method', 'PATCH');
 
-            return Nova.request().post(`/nova-vendor/inline-select/${this.resourceName}/${this.resourceId}`, formData)
+            return Nova.request().post(this.field.inlineDetailUpdateLink, formData)
                 .then(() => {
                     let label = _.find(this.field.options, option => option.value == this.value).label;
 

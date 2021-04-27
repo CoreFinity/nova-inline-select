@@ -11,9 +11,6 @@ class ResourceUpdateController
 
         $model = $request->findModelQuery()->lockForUpdate()->firstOrFail();
 
-        $resource = $request->newResourceWith($model);
-        $resource->authorizeToUpdate($request);
-
         return $model->update(request()->except('_method'));
     }
 }

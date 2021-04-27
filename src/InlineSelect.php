@@ -2,7 +2,9 @@
 
 namespace KirschbaumDevelopment\Nova;
 
+use Illuminate\Support\Facades\URL;
 use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class InlineSelect extends Field
 {
@@ -101,5 +103,25 @@ class InlineSelect extends Field
     public function inlineOnLens()
     {
         return $this->inlineOnIndex();
+    }
+
+        /**
+     * Get additional meta information to merge with the element payload.
+     *
+     * @return array
+     */
+    public function meta()
+    {
+        $request = app(NovaRequest::class);
+
+        return  array_merge($this->meta, [
+            'inlineDetailUpdateLink' => URL::temporarySignedRoute('inline-select.update', now()->addMinutes(60),   [
+                'resource' =>  $request->route('resource'),
+                'resourceId' =>  $request->route('resourceId'),
+                'allowedFields' => [
+                    $this->attribute
+                ]
+            ])
+        ]);
     }
 }
