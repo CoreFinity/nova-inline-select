@@ -4,10 +4,13 @@ namespace KirschbaumDevelopment\Nova;
 
 use Illuminate\Support\Facades\URL;
 use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\Searchable;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class InlineSelect extends Field
 {
+    use Searchable;
+
     /**
      * The field's component.
      *
@@ -105,7 +108,7 @@ class InlineSelect extends Field
         return $this->inlineOnIndex();
     }
 
-        /**
+    /**
      * Get additional meta information to merge with the element payload.
      *
      * @return array
@@ -123,5 +126,21 @@ class InlineSelect extends Field
                 ]
             ])
         ]);
+    }
+
+    /**
+     * Prepare the field for JSON serialization.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return with(app(NovaRequest::class), function ($request) {
+            return array_merge(parent::jsonSerialize(), [
+                'searchable' => is_bool($this->searchable)
+                    ? $this->searchable
+                    : call_user_func($this->searchable, $request),
+            ]);
+        });
     }
 }
