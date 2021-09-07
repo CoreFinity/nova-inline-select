@@ -120,7 +120,7 @@ class InlineSelect extends Field
         return  array_merge($this->meta, [
             'inlineDetailUpdateLink' => URL::temporarySignedRoute('inline-select.update', now()->addMinutes(60),   [
                 'resource' =>  $request->route('resource'),
-                'resourceId' =>  $request->route('resourceId'),
+                'resourceId' =>  $request->route('resourceId') ?? $this->value,
                 'allowedFields' => [
                     $this->attribute
                 ]
