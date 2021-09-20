@@ -11,6 +11,8 @@ class ResourceUpdateController
 
         $model = $request->findModelQuery()->lockForUpdate()->firstOrFail();
 
-        return $model->update(request()->except('_method'));
+        return $model->update(request()->only(
+            request()->get('allowedFields')
+        ));
     }
 }
