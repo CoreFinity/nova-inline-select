@@ -19,7 +19,7 @@ class InlineSelectFieldServiceProvider extends ServiceProvider
 
         Nova::serving(function () {
             Nova::script('inline-select', __DIR__ . '/../dist/js/field.js');
-            Nova::style('inline-select', __DIR__ . '/../dist/css/field.css');
+            // Nova::style('inline-select', __DIR__ . '/../dist/css/field.css');
         });
     }
 
